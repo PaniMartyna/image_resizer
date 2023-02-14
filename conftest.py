@@ -6,8 +6,9 @@ from rest_framework.test import APIClient
 from django.core.files.uploadedfile import SimpleUploadedFile
 from pytest_django.fixtures import django_user_model
 
+from config import settings
 from config.settings import BASE_DIR
-from images.models import Picture
+from images.models import Picture, Size, Thumbnail
 
 
 @pytest.fixture
@@ -37,4 +38,30 @@ def picture_handler(db, user):
 
     yield picture
 
-    os.remove(os.path.join(BASE_DIR, 'media', 'pictures', 'test_picture.jpg'))
+    os.remove(os.path.join(settings.MEDIA_ROOT, 'pictures', 'test_picture.jpg'))
+
+
+@pytest.fixture
+def thumbnail_handler(db, user, picture_handler):
+    """Create instance of Size"""
+    size1 = Size.objects.create(height=400)
+
+    """Create test thumbnail."""
+    thumbnail = Thumbnail.objects.create(
+        picture=picture_handler,
+        url=SimpleUploadedFile(
+            'test_thumbnail.jpg',
+            content=open(os.path.join('images', 'tests', 'test_picture.jpg'), 'rb').read()),
+        size=size1
+    )
+
+    yield thumbnail
+
+    os.remove(os.path.join(settings.MEDIA_ROOT, 'thumbnails', 'test_thumbnail.jpg'))
+
+
+
+@pytest.fixture
+def image():
+    yield SimpleUploadedFile('test_image.jpeg',
+                             content=open(os.path.join('images', 'tests', 'test_picture.jpg'), 'rb').read())

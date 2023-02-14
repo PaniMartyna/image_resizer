@@ -20,8 +20,6 @@ def validate_file_type(upload):
     default_storage.delete(temp_path)
 
     images_types = [f'image/{image_type}' for image_type in settings.IMAGES_TYPES]
-    print("*" * 20)
-    print(images_types, file_type)
-    print("*" * 20)
+
     if file_type not in images_types:
         raise ValidationError(f"File type not supported. Use: *.{', *.'.join(settings.IMAGES_TYPES)}")
