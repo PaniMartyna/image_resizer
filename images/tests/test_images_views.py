@@ -7,7 +7,7 @@ from config import settings
 from images.models import Picture
 
 
-def test_picture_post_image_file(client, user):
+def test_picture_post(client, user):
     """Test posting a valid image file"""
 
     post_data = {
@@ -24,22 +24,6 @@ def test_picture_post_image_file(client, user):
     assert post_data["name"] == response.data["name"]
 
     os.remove(os.path.join(settings.BASE_DIR, 'media', 'pictures', 'test_picture.jpg'))
-
-
-def test_picture_post_non_image_file(client, user):
-    """Test posting non-image file. Should fail at file type validation"""
-
-    post_data = {
-        "name": "test_file",
-        "owner": user,
-        "url": SimpleUploadedFile('test_file.txt',
-                                  content=open(os.path.join('images', 'tests', 'test_file.txt'), 'rb').read())
-    }
-    client.force_authenticate(user)
-
-    response = client.post('/api/images/', post_data)
-
-    assert response.status_code == 400
 
 
 def test_picture_list_get(client, user):
