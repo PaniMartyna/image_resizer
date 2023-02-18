@@ -22,6 +22,7 @@ class PictureCreateSerializer(serializers.ModelSerializer):
     """Serializer for uploading pictures"""
 
     owner = serializers.ReadOnlyField(source='owner.username')
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         model = Picture
@@ -30,8 +31,10 @@ class PictureCreateSerializer(serializers.ModelSerializer):
 
 
 class PictureListSerializer(serializers.HyperlinkedModelSerializer):
-    """Serializer for uploading pictures"""
-    details = serializers.HyperlinkedIdentityField(view_name='images:picture-detail')
+    """Serializer for listing pictures"""
+
+    details = serializers.HyperlinkedIdentityField(view_name='images:image-detail')
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         model = Picture
@@ -40,32 +43,15 @@ class PictureListSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PictureRetrieveSerializer(serializers.ModelSerializer):
-    """Serializer for uploading pictures"""
+    """Serializer for picture details"""
 
     owner = serializers.ReadOnlyField(source='owner.username')
     thumbnails = ThumbnailSerializer(many=True)
-
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    
     class Meta:
         model = Picture
         fields = ['id', 'name', 'owner', 'url', 'thumbnails', 'created_at']
         read_only_fields = ['id', 'thumbnails']
 
 
-# class PictureSerializer(serializers.ModelSerializer):
-#     """Serializer for uploading pictures"""
-#
-#     owner = serializers.ReadOnlyField(source='owner.username')
-#
-#     class Meta:
-#         model = Picture
-#         fields = ['id', 'name', 'owner', 'created_at']
-#         read_only_fields = ['id']
-#         extra_kwargs = {'url': {'write_only': True}}
-#
-#         def create(self, validated_data):
-#             picture = Picture(
-#                 name=validated_data['name'],
-#             )
-#             picture.url = validated_data['url']
-#             picture.save()
-#             return picture

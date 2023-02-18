@@ -8,9 +8,29 @@ from images.serializers import PictureCreateSerializer, PictureRetrieveSerialize
     PictureListSerializer
 
 
-# class PictureViewSet(viewsets.ModelViewSet):
+class PictureViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = PictureRetrieveSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Picture.objects.filter(owner=user)
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return PictureCreateSerializer
+        elif self.action == 'list':
+            return PictureListSerializer
+        return self.serializer_class
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+#
+# class PictureCreateView(CreateAPIView):
 #     permission_classes = [IsAuthenticated]
-#     serializer_class = PictureSerializer
+#     serializer_class = PictureCreateSerializer
 #
 #     def get_queryset(self):
 #         user = self.request.user
@@ -18,31 +38,19 @@ from images.serializers import PictureCreateSerializer, PictureRetrieveSerialize
 #
 #     def perform_create(self, serializer):
 #         serializer.save(owner=self.request.user)
-
-
-class PictureCreateView(CreateAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = PictureCreateSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        return Picture.objects.filter(owner=user)
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-
-
-class PictureListView(ListAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = PictureListSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        return Picture.objects.filter(owner=user)
-
-
-class PictureRetrieveView(RetrieveAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = PictureRetrieveSerializer
-    queryset = Picture.objects.all()
+#
+#
+# class PictureListView(ListAPIView):
+#     permission_classes = [IsAuthenticated]
+#     serializer_class = PictureListSerializer
+#
+#     def get_queryset(self):
+#         user = self.request.user
+#         return Picture.objects.filter(owner=user)
+#
+#
+# class PictureRetrieveView(RetrieveAPIView):
+#     permission_classes = [IsAuthenticated]
+#     serializer_class = PictureRetrieveSerializer
+#     queryset = Picture.objects.all()
 
