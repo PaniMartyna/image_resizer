@@ -14,15 +14,11 @@ class ThumbnailSerializer(serializers.ModelSerializer):
         model = Thumbnail
         fields = ['size', 'url']
 
-    # def get_queryset(self):
-    #     """Returns only thumbnails for a given picture."""
-
 
 class PictureCreateSerializer(serializers.ModelSerializer):
     """Serializer for uploading pictures"""
 
     owner = serializers.ReadOnlyField(source='owner.username')
-    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         model = Picture
@@ -39,19 +35,30 @@ class PictureListSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Picture
         fields = ['id', 'name', 'details', 'created_at']
-        read_only_fields = ['id', 'details']
+        read_only_fields = ['id', 'details', 'created_at']
 
 
 class PictureRetrieveSerializer(serializers.ModelSerializer):
     """Serializer for picture details"""
 
     owner = serializers.ReadOnlyField(source='owner.username')
+    url = serializers.SerializerMethodField()
     thumbnails = ThumbnailSerializer(many=True)
+    temporary_url = serializers.SerializerMethodField()
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
-    
+
+    def get_url(self, obj):
+        if self.context['request'].user.userprofile.subscription_plan.original_url:
+            return self.context['request'].build_absolute_uri(obj.url)
+
+    def get_temporary_url(self, obj):
+        if self.context['request'].user.userprofile.subscription_plan.temporary_url:
+            return "placeholder for temporary link"
+
     class Meta:
         model = Picture
-        fields = ['id', 'name', 'owner', 'url', 'thumbnails', 'created_at']
-        read_only_fields = ['id', 'thumbnails']
+        fields = ['id', 'name', 'owner', 'url', 'thumbnails', 'temporary_url', 'created_at']
+        read_only_fields = ['id', 'thumbnails', 'created_at']
+
 
 

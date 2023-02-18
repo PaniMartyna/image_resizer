@@ -3,7 +3,6 @@ import os
 from PIL import Image
 
 from config import settings
-from images.models import Picture
 
 
 def picture_resizer(picture, thumbnail_height):

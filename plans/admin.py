@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from plans.models import SubscriptionPlan, UserProfile
+
+admin.site.register(SubscriptionPlan)
+admin.site.register(UserProfile)

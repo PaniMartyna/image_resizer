@@ -10,18 +10,22 @@ from images.serializers import PictureCreateSerializer, PictureRetrieveSerialize
 
 class PictureViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    serializer_class = PictureRetrieveSerializer
+    serializer_class = PictureListSerializer
 
     def get_queryset(self):
         user = self.request.user
         return Picture.objects.filter(owner=user)
 
     def get_serializer_class(self):
+        user = self.request.user
         if self.action == 'create':
             return PictureCreateSerializer
-        elif self.action == 'list':
-            return PictureListSerializer
+        elif self.action == 'retrieve':
+            return PictureRetrieveSerializer
         return self.serializer_class
+
+    def get_serializer_context(self):
+        return {'request': self.request}
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
