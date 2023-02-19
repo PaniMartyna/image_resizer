@@ -7,7 +7,7 @@
     `pip install -r requirements.txt`
 3. connect to a database
 4. migrate `python manage.py migrate`
-5. create admin `python manage.py cretesuperuser`
+5. create admin `python manage.py createsuperuser`
 6. run the server `python manage.py runserver`
 7. go to /admin and log in as admin
 8. create new users and assign their subscription plans (automatically when a user is created, they get the Basic Plan)
