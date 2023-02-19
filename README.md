@@ -2,7 +2,7 @@
 
 ### How to run:
 
-1. clone the repository into a folder with virtual env
+1. fork and clone the repository into a folder with virtual env
 2. install all required packages
     `pip install -r requirements.txt`
 3. connect to a database
