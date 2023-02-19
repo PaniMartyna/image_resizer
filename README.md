@@ -11,7 +11,7 @@
 6. run the server `python manage.py runserver`
 7. go to /admin and log in as admin
 8. create new users and assign their subscription plans (automatically when a user is created, they get the Basic Plan)
-9. as and admin you can crete new subscription plans
+9. as and admin (using Django Admin) you can create new subscription plans
 
 ### endpoints:
 
