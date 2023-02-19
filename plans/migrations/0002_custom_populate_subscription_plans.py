@@ -38,13 +38,6 @@ def create_subscription_plans(apps, schema_editor):
             subscription_plan.thumbnail_sizes.add(size)
 
 
-
-
-
-def delete_subscription_plans(apps, schema_editor):
-    pass
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -52,5 +45,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(create_subscription_plans, delete_subscription_plans)
+        migrations.RunPython(create_subscription_plans)
     ]

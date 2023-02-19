@@ -6,8 +6,8 @@ from config import settings
 from images.validators import validate_file_type
 
 
-def test_valid_image(image):
-    assert not validate_file_type(image)
+def test_valid_image(temp_picture):
+    assert not validate_file_type(temp_picture)
 
 
 def test_not_valid_image_with_correct_extension():

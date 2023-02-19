@@ -13,10 +13,6 @@ def create_sizes(apps, schema_editor):
         size.save()
 
 
-def delete_sizes(apps, schema_editor):
-    pass
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -24,5 +20,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(create_sizes, delete_sizes)
+        migrations.RunPython(create_sizes)
     ]

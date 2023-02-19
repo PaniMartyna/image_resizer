@@ -60,5 +60,19 @@ class PictureRetrieveSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'owner', 'url', 'thumbnails', 'temporary_url', 'created_at']
         read_only_fields = ['id', 'thumbnails', 'created_at']
 
+# WIP
+# def generate_temporary_picture_link(picture, duration):
+#     pass
+#
+#
+# class TempUrlSerializer(serializers.ModelSerializer):
+#     """Serializer for temporary picture link"""
+#
+#     # picture_name = serializers.ReadOnlyField(source='picture.name')
+#
+#     class Meta:
+#         model = TempUrl
+#         fields = ['picture_id', 'duration']
+#         read_only_fields = ['picture_id']
 
 

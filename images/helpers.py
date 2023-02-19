@@ -9,6 +9,10 @@ def picture_resizer(picture, thumbnail_height):
     """Resize picture to a thumbnail of a given height and proportional width."""
 
     with Image.open(picture.url.path) as org_picture:
+
+        if org_picture.mode not in ('L', 'RGB'):
+            org_picture = org_picture.convert('RGB')
+
         width, height = org_picture.size
         thumbnail_width = int(width / (height / thumbnail_height))
 

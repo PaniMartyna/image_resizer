@@ -1,4 +1,7 @@
+from datetime import datetime, timedelta
+
 from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from images.validators import validate_file_type
@@ -28,3 +31,14 @@ class Thumbnail(models.Model):
 
     def __str__(self):
         return f"Thumbnail for picture: {self.picture.name}. Height: {self.size.height}px"
+
+
+# class TempUrl(models.Model):
+#     picture = models.OneToOneField("Picture", on_delete=models.CASCADE)
+#     uuid = models.CharField(max_length=32)
+#     duration = models.PositiveIntegerField(validators=[MinValueValidator(300), MaxValueValidator(30000)])
+#
+#     @property
+#     def expiration_time(self):
+#         return datetime.now() + timedelta(seconds=self.duration)
+
