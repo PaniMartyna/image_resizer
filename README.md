@@ -3,15 +3,16 @@
 ### How to run:
 
 1. fork and clone the repository into a folder with virtual env
-2. install all required packages
+2. fill-in .env-default.txt and save as .env
+3. install all required packages
     `pip install -r requirements.txt`
-3. connect to a database
-4. migrate `python manage.py migrate`
-5. create admin `python manage.py createsuperuser`
-6. run the server `python manage.py runserver`
-7. go to /admin and log in as admin
-8. create new users and assign their subscription plans (automatically when a user is created, they get the Basic Plan)
-9. as and admin (using Django Admin) you can create new subscription plans
+4. connect to a database
+5. migrate `python manage.py migrate`
+6. create admin `python manage.py createsuperuser`
+7. run the server `python manage.py runserver`
+8. go to /admin and log in as admin
+9. create new users and assign their subscription plans (automatically when a user is created, they get the Basic Plan)
+10. as and admin (using Django Admin) you can create new subscription plans
 
 ### endpoints:
 
